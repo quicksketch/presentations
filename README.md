@@ -1,4 +1,4 @@
-# Presentations
+Presentations I've Given
 
-- [performance-profiling](https://quicksketch.github.com/presentations/performance-profiling/)
-- [quantum-entanglement](https://quicksketch.github.com/presentations/quantum-entanglement/)
+- [PHP Application Performance Profiling - DrupalCon Seattle 2018](https://quicksketch.github.io/presentations/performance-profiling/)
+- [Quantum Entanglement (Ignite Talk) - Lullabot Retreat 2016](https://quicksketch.github.io/presentations/quantum-entanglement/)
