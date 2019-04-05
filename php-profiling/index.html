@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Performance Pitfalls</title>
+
+    <meta name="description" content="Performance pitfalls in PHP applications (Drupal specifically) and tools for profiling your application.">
+    <meta name="author" content="Nate Lampton">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="reveal.js/css/reveal.css">
+    <link rel="stylesheet" href="reveal.js/css/columns.css">
+    <link rel="stylesheet" href="reveal.js/plugin/prism/prism.css">
+    <link rel="stylesheet" href="reveal.js/plugin/fontawesome/css/font-awesome.css">
+    <link rel="stylesheet" href="reveal.js/css/theme/seattle.css" id="theme">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'reveal.js/css/print/pdf.css' : 'reveal.js/css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+    <!--[if lt IE 9]>
+    <script src="reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+
+        <section data-background="images/seattle-cover.jpg" data-background-transition="slide">
+          <h1>&nbsp;</h1>
+        </section>
+
+        <section data-background="images/seattle-start.jpg" data-background-transition="slide" data-state="cover">
+          <h1>Performance Pitfalls</h1>
+          <h3>(Things You'll Probably Find While Profiling Your Drupal Site)</h3>
+          <h6 class="foot subtitle">by Nate Lampton</h6>
+        </section>
+
+        <section data-background="images/seattle-light.jpg" data-transition="fade">
+          <h1>Hello</h1>
+          <div class="column-wrapper">
+            <div style="width: 200px;">
+              <img src="images/lullabot-robot.png" width="70%">
+            </div>
+            <div style="width: 600px; text-align: left;">
+              <h3>A Bit on Myself</h3>
+              <ul>
+                <li>My Name is Nate Lampton</li>
+                <li>I work at Lullabot</li>
+                <li>I'm often "the Fixer"</li>
+                <li>You can hire us for Performance Analysis</li>
+              </ul>
+            </div>
+        </section>
+
+        <section data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <aside class="notes">
+            <ul>
+              <li>Performance Analysis both front-end and back-end.</li>
+              <li>Other clients: Syfy, Carnegie Mellon, Pantheon</li>
+            </ul>
+          </aside>
+          <h1>Hello</h1>
+          <div class="column-wrapper">
+            <div style="width: 200px;">
+              <img src="images/lullabot-robot.png" width="70%">
+            </div>
+            <div style="width: 600px; text-align: left;">
+              <h3>Clients include</h3>
+              <ul>
+                <li>Harvard University</li>
+                <li>NBC Entertainment</li>
+                <li>Recording Academy (the GRAMMYs)</li>
+                <li>Tesla Motors</li>
+              </ul>
+            </div>
+        </section>
+
+        <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <aside class="notes">
+            <ul>
+              <li>Define objectives</li>
+            </ul>
+          </aside>
+          <h1>Application Performance</h1>
+          <div class="column-wrapper">
+            <div style="width: 200px;">
+              <img src="images/rocket.png" width="70%">
+            </div>
+            <div style="width: 600px; text-align: left;">
+              <h3>What We're Covering</h3>
+              <ul>
+                <li>The speed at which a non-cached HTTP response is returned</li>
+                <li>Generation of HTML Pages</li>
+                <li>Processing of Forms and AJAX Requests</li>
+              </ul>
+            </div>
+        </section>
+
+        <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <aside class="notes">
+            <ul>
+              <li>In order of desireability, when you should be profiling</li>
+            </ul>
+          </aside>
+          <h1>Application Profiling</h1>
+          <div class="column-wrapper">
+            <div style="width: 200px;">
+              <img src="images/stopwatch.png" width="70%">
+            </div>
+            <div style="width: 600px; text-align: left;">
+              <h3>Essential to Determining Performance Problems</h3>
+              <ol>
+                <li class="fragment">Before your deploy every change</li>
+                <li class="fragment">Before you launch your site</li>
+                <li class="fragment">When you notice it's slow</li>
+                <li class="fragment">When <em>someone else</em> notices it's slow</li>
+              </ol>
+              <p class="fragment">And ideally, profile <em>every</em> request</p>
+            </div>
+        </section>
+
+        <section data-background="images/seattle-dark.jpg" data-background-transition="slide" class="dark">
+          <h1>Tools</h1>
+          <h6 class="foot">For Profiling</h6>
+        </section>
+
+        <section data-background="images/seattle-light.jpg">
+          <h1>My Favorites</h1>
+          <ol class="larger">
+            <li class="fragment">XHProf</li>
+            <li class="fragment">Tideways</li>
+            <li class="fragment">BlackFire</li>
+            <li class="fragment">New Relic</li>
+          </ol>
+        </section>
+
+        <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>XHProf</h1>
+          <div class="column-wrapper">
+            <div>
+              [screenshot]
+            </div>
+            <div>
+              <ul class="fragment">
+                <li>Only works prior to PHP 7</li>
+                <li>Created by Facebook</li>
+                <li>Pioneered PHP Profiling</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>Tideways</h1>
+          <div class="column-wrapper">
+            <div>
+              [screenshot]
+            </div>
+            <div>
+              <ul class="fragment">
+                <li>Successor to XHProf</li>
+                <li>Same Data Format</li>
+                <li>Works with XHProf Module for Drupal 8</li>
+                <li>Excellent for Local Debugging</li>
+                <li>Online Service for Historical Tracking</li>
+                <li><a href="https://tideways.com">tideways.com</a></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>BlackFire.io</h1>
+          <div class="column-wrapper">
+            <div>
+              [screenshot]
+            </div>
+            <div>
+              <ul class="fragment">
+                <li>Great On-Demand Profiler</li>
+                <li>Browser Extension or Service</li>
+                <li>Excellent for Local Debugging</li>
+                <li>Continuous Integration</li>
+                <li>Does not Profile <em>every</em> request</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>New Relic</h1>
+          <div class="column-wrapper">
+            <div>
+              [screenshot]
+            </div>
+            <div>
+              <ul class="fragment">
+                <li>Always-on Profiler</li>
+                <li>Typically only on Dev/Test/Live servers</li>
+                <li>Not as Good for Local Profiling</li>
+                <li>Most Expensive Option</li>
+                <li>Best Tool for Tracking Historical Data</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section data-background="images/seattle-dark.jpg" data-background-transition="slide" class="dark">
+          <h1>Common Pitfalls</h1>
+          <h6 class="foot">Affecting Most Drupal Sites</h6>
+        </section>
+
+        <section data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>Using the $_SESSION Variable</h1>
+          <div class="column-wrapper">
+            <div>
+              [code sample]
+            </div>
+          </div>
+        </section>
+
+        <section data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>Using the $_SESSION Variable</h1>
+          <div class="column-wrapper">
+            <div>
+              [screenshot of headers]
+            </div>
+          </div>
+        </section>
+
+        <section data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>Unexpected Culprits of $_SESSION</h1>
+          <ul>
+            <li class="fragment">
+              D7: <code>drupal_set_message()</code> or<br>
+              D8: <code>\Drupal::messenger()->addMessage()</code>
+            </li>
+            <li class="fragment">Any form, including search and polls</li>
+            <li class="fragment">Shopping Carts</li>
+          </ul>
+        </section>
+
+        <section data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>Solutions and Alternatives</h1>
+          <ul>
+            <li class="fragment">Only use $_SESSION for truly unique per-user data</li>
+            <li class="fragment">Switch to client-side cookies</li>
+            <li class="fragment">Use external services for comments, polling, mailing lists, etc</li>
+            <li class="fragment">AJAX load-in dynamic page parts</li>
+          </ul>
+        </section>
+
+        <section data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>Web Services and External HTTP Requests</h1>
+          <h3>Blocking Server-Side Processes</h3>
+          <ul>
+            <li class="fragment">Mailing Lists</li>
+            <li class="fragment">Search Services</li>
+            <li class="fragment">OEmbed (Twitter/Facebook/Instagram/YouTube)</li>
+          </ul>
+        </section>
+
+        <section data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>On-Demand Processing</h1>
+          <h3>Similar Problems with built-in Drupal processes</h3>
+          <ul>
+            <li class="fragment">CSS and JS aggregation</li>
+            <li class="fragment">Image Style Generation</li>
+          </ul>
+        </section>
+
+        <section data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>Solutions and Alternatives</h1>
+          <ul>
+            <li class="fragment">Initiate requests client-side</li>
+            <li class="fragment">Avoid any "on-demand" actions if possible</li>
+            <li class="fragment">Add to a Queue and do actions later on cron</li>
+            <li class="fragment">Do processing on content save instead of on view</li>
+          </ul>
+        </section>
+
+        <section data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>Modules that Can Help</h1>
+          <ul>
+            <li class="fragment">Advanced Agg (though tricky)</li>
+            <li class="fragment">Imageinfo Cache (D7)</li>
+            <li class="fragment">Image Style Warmer (D8)</li>
+          </ul>
+        </section>
+
+        <section data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>Excessive Logging</h1>
+          <div class="column-wrapper">
+            <div>
+              [picture of php errors in DBLog]
+            </div>
+          </div>
+        </section>
+
+        <section data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>Solutions</h1>
+          <ul>
+            <li>Fix your code. ¯\_(ツ)_/¯</li>
+            <li>Offloading logging (e.g. syslog) is a good idea but not a solution.</li>
+          </ul>
+        </section>
+
+        <section data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>Debugging Modes Turned On</h1>
+          <ul>
+            <li>Twig Debug</li>
+            <li>Theme Registry Rebuild</li>
+            <li>Devel Module Error Handler</li>
+          </ul>
+        </section>
+
+        <section data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>Solutions</h1>
+          <ul>
+            <li>Per-environment settings.php files</li>
+            <li>Per-environment service files</li>
+            <li>Disable Devel module using Config Split</li>
+          </ul>
+        </section>
+
+        <section data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>Debugging Modes Turned On</h1>
+          <ul>
+            <li>Twig Debug</li>
+            <li>Theme Registry Rebuild</li>
+            <li>Devel Module Error Handler</li>
+          </ul>
+        </section>
+
+        <section data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>Long-Running SQL Queries or Locking</h1>
+          <ul>
+            <li>Easy to encounter in complex Views</li>
+            <li>Unindexed or poor indexes</li>
+            <li>Overuse of Similar by Terms Module</li>
+            <li>D7: variable_set() a particularly bad culprit</li>
+          </ul>
+        </section>
+
+        <section data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>Fixing SQL Problems</h1>
+          <ul>
+            <li>Use EXPLAIN on the query and create indexes if needed</li>
+            <li>Simplify the View configuration</li>
+            <li>De-normalize tables (duplicate data in more than one table)</li>
+            <li>Use Views or other caching to reduce frequency</li>
+          </ul>
+        </section>
+
+        <section data-background="images/seattle-dark.jpg" data-background-transition="slide" class="dark">
+          <h1>Outside the Application</h1>
+          <h6 class="foot">Other Tools that Can Help</h6>
+        </section>
+
+        <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>Refactoring Difficult or Slow?</h1>
+          <aside class="notes">
+            <ul>
+              <li>"DevOps" the problem away (Slides)</li>
+              <li>Varnish should be in every DevOps toolkit.</li>
+              <li>Critically useful for managing downtime, deployments, avoiding hits to Drupal for cached pages.</li>
+            </ul>
+          </aside>
+          <h3 class="fragment">Varnish To the Rescue!</h3>
+          <ul>
+            <li class="fragment">Ultimate tool in covering up back-end problems</li>
+            <ul>
+              <li class="fragment">Cache authenticated pages!</li>
+              <li class="fragment">Ignore Drupal's cache headers and session cookies!</li>
+              <li class="fragment">Tie your infrastructure directly to application behavior!</li>
+            </ul>
+            <li class="fragment">(These are all bad ideas...)</li>
+            <li class="fragment">But can be a band-aid while refactoring.</li>
+          </ul>
+        </section>
+
+        <section data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>Other Good Ideas</h1>
+          <ul>
+            <li>Separate out memory usage from Apache</li>
+            <ul>
+              <li>Use PHP-FPM instead of mod_php</li>
+              <li>Use Imagemagick instead of PHP's GD</li>
+            </ul>
+            <li>Always check that PHP's OpCache is enabled</li>
+          </ul>
+        </section>
+
+        <section data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>Back-end Caching Tools</h1>
+          <h3 class="fragment">Redis or Memcache?</h3>
+          <ul class="fragment">
+            <li>Not as necessary as it had been.</li>
+            <li>If networking is involved, gains are negligible or even negative.</li>
+            <li>Can be beneficial in single-server setups.</li>
+            <li>Reduces load on MySQL, if that's your bottleneck.</li>
+          </ul>
+        </section>
+
+        <section data-background="images/seattle-dark.jpg" data-background-transition="slide" class="dark">
+          <h1>Questions?</h1>
+        </section>
+
+        <section data-background="images/seattle-start.jpg" data-background-transition="slide" data-state="cover">
+          <h1>Performance Pitfalls</h1>
+          <h3>Problems Found While Application Profiling</h3>
+          <h6 class="foot subtitle">by Nate Lampton</h6>
+        </section>
+
+        <section data-background="images/seattle-cover.jpg" data-background-transition="slide">
+          <h1>&nbsp;</h1>
+        </section>
+
+      </div>
+    </div>
+
+    <script src="reveal.js/lib/js/head.min.js"></script>
+    <script src="reveal.js/js/reveal.js"></script>
+    <script>
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'none', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'reveal.js/plugin/prism/prism.js', async: true },
+          { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true },
+          { src: 'reveal.js/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+  </body>
+</html>
