@@ -276,7 +276,14 @@ pre {
 .reveal pre code {
   display: block;
   overflow: auto;
-  max-height: 500px; }
+  max-height: 500px;
+  padding: 1em;
+  font-family: monospace;
+}
+.reveal pre.wide {
+  margin-left: -15%;
+  margin-right: -15%;
+}
 
 .pseudo-code .punctuation {
   visibility: hidden; }

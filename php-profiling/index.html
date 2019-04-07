@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="reveal.js/css/reveal.css">
     <link rel="stylesheet" href="reveal.js/css/columns.css">
     <link rel="stylesheet" href="reveal.js/plugin/prism/prism.css">
+    <link rel="stylesheet" href="reveal.js/lib/css/monokai.css">
     <link rel="stylesheet" href="reveal.js/plugin/fontawesome/css/font-awesome.css">
     <link rel="stylesheet" href="reveal.js/css/theme/seattle.css" id="theme">
 
@@ -150,34 +151,80 @@
 
         <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
           <h1>XHProf</h1>
+          <aside class="notes">
+            <ul>
+              <li>Back when Facebook still used Zend engine and Hack</li>
+            </ul>
+          </aside>
           <div class="column-wrapper">
             <div>
-              [screenshot]
+              <img src="images/xhprof-screenshot.png" width="400" alt="Screenshot of XHProf's profiling" />
             </div>
             <div>
-              <ul class="fragment">
-                <li>Only works prior to PHP 7</li>
+              <ul>
                 <li>Created by Facebook</li>
+                <li>Only works prior to PHP 7</li>
                 <li>Pioneered PHP Profiling</li>
+                <li>Open Source</li>
+                <li>Great for A/B Testing</li>
               </ul>
             </div>
           </div>
         </section>
 
         <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <aside class="notes">
+            <ul>
+              <li>Sort by Exclusive Wall Time</li>
+              <li>Find worse offenders</li>
+              <li>Follow up the "Parent" stack until you get to recognizeable/actionable code.</li>
+            </ul>
+          </aside>
+          <h1>XHProf</h1>
+          <img src="images/xhprof-report.gif" width="100%" />
+        </section>
+
+        <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <aside class="notes">
+            <ul>
+              <li>Diffing is also super helpful. Before/after code changes, compare callstack differences.</li>
+            </ul>
+          </aside>
+          <h1>XHProf</h1>
+          <h3>Great for Comparitive Diffing</h3>
+          <ul>
+            <li>Normal query string: <code>?run=<span style="color: red">[hash1]</span></code>
+            <li>Example: <code>?run=5ca7f5acd0560</code>
+            <li>Comparitive query string: <code>?run1=<span style="color: red">[hash1]</span>&run2=<span style="color: red">[hash2]</span></code>
+          </ul>
+        </section>
+
+        <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <aside class="notes">
+            <ul>
+              <li>Diffing is also super helpful. Before/after code changes, compare callstack differences.</li>
+            </ul>
+          </aside>
+          <h1>XHProf</h1>
+          <img src="images/xhprof-diff.png" width="100%" />
+        </section>
+
+        <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
           <h1>Tideways</h1>
           <div class="column-wrapper">
             <div>
-              [screenshot]
+              <img src="images/tideways-logo.png" width="200" alt="Tideways logo" />
             </div>
             <div>
-              <ul class="fragment">
+              <ul>
                 <li>Successor to XHProf</li>
-                <li>Same Data Format</li>
-                <li>Works with XHProf Module for Drupal 8</li>
-                <li>Excellent for Local Debugging</li>
-                <li>Online Service for Historical Tracking</li>
-                <li><a href="https://tideways.com">tideways.com</a></li>
+                <li class="fragment">Works Pretty much Identical</li>
+                <li class="fragment">Same Data Format</li>
+                <li class="fragment">Open Source Extension</li>
+                <li class="fragment">Works with XHProf Module for Drupal 8</li>
+                <li class="fragment">Excellent for Local Debugging</li>
+                <li class="fragment">Online Service maintains Historical Tracking</li>
+                <li class="fragment"><a href="https://tideways.com">tideways.com</a></li>
               </ul>
             </div>
           </div>
@@ -185,17 +232,60 @@
 
         <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
           <h1>BlackFire.io</h1>
+          <aside class="notes">
+            <ul>
+              <li>Collects more information than an other profiler</li>
+              <li>Optimized for PHP and in particular Symfony</li>
+              <li>Excellent Drupal-specific recommendations</li>
+              <li>"Hack" plan for local profiling only is free.</li>
+              <li>General pricing $30-$100/mo</li>
+            </ul>
+          </aside>
           <div class="column-wrapper">
             <div>
-              [screenshot]
+              <img src="images/blackfire-logo.png" width="200" alt="Blackfire.io Logo" />
             </div>
             <div>
-              <ul class="fragment">
+              <ul>
                 <li>Great On-Demand Profiler</li>
-                <li>Browser Extension or Service</li>
-                <li>Excellent for Local Debugging</li>
-                <li>Continuous Integration</li>
-                <li>Does not Profile <em>every</em> request</li>
+                <li class="fragment">Service-only (results on website)</li>
+                <li class="fragment">Local and Production Debugging</li>
+                <li class="fragment">Continuous Integration Tie-ins</li>
+                <li class="fragment">Does not Profile <em>every</em> request</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>BlackFire.io</h1>
+          <aside class="notes">
+            <ul>
+              <li>Overview of a slow request</li>
+            </ul>
+          </aside>
+          <img src="images/blackfire-demo.gif" width="100%" />
+        </section>
+
+        <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>New Relic</h1>
+          <aside class="notes">
+            <ul>
+              <li>New Per-Server pricing is terrible</li>
+              <li>Aroun $100/mo for a each web server (e.g. c5.large or m4.medium)</li>
+            </ul>
+          </aside>
+          <div class="column-wrapper">
+            <div>
+              <img src="images/newrelic-logo.png" width="200" />
+            </div>
+            <div>
+              <ul>
+                <li>Always-on Profiler</li>
+                <li class="fragment">Typically only on Dev/Test/Live servers</li>
+                <li class="fragment">Not as Good for Local Profiling</li>
+                <li class="fragment">Most Expensive Option</li>
+                <li class="fragment">Excellent Tool for Tracking Historical Data</li>
               </ul>
             </div>
           </div>
@@ -203,20 +293,33 @@
 
         <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
           <h1>New Relic</h1>
-          <div class="column-wrapper">
-            <div>
-              [screenshot]
-            </div>
-            <div>
-              <ul class="fragment">
-                <li>Always-on Profiler</li>
-                <li>Typically only on Dev/Test/Live servers</li>
-                <li>Not as Good for Local Profiling</li>
-                <li>Most Expensive Option</li>
-                <li>Best Tool for Tracking Historical Data</li>
-              </ul>
-            </div>
-          </div>
+          <aside class="notes">
+            <ul>
+              <li>Overview of a slow request</li>
+            </ul>
+          </aside>
+          <img src="images/newrelic-trace-graph.png" width="80%" />
+        </section>
+
+        <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>New Relic</h1>
+          <aside class="notes">
+            <ul>
+              <li>Stack trace showing exactly where in the code slowdowns occur</li>
+            </ul>
+          </aside>
+          <img src="images/newrelic-trace-list.png" width="80%" />
+        </section>
+
+        <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>New Relic</h1>
+          <aside class="notes">
+            <ul>
+              <li>Real benefit is in historical tracking of normal traffic.</li>
+              <li>Easily determine source of any slowdown as it happens or after it happens.</li>
+            </ul>
+          </aside>
+          <img src="images/newrelic-history.png" width="80%" />
         </section>
 
         <section data-background="images/seattle-dark.jpg" data-background-transition="slide" class="dark">
@@ -224,25 +327,24 @@
           <h6 class="foot">Affecting Most Drupal Sites</h6>
         </section>
 
-        <section data-background="images/seattle-light.jpg" data-transition="fade-in">
+        <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
           <h1>Using the $_SESSION Variable</h1>
           <div class="column-wrapper">
-            <div>
-              [code sample]
-            </div>
+            <pre><code class="php" data-trim>
+$_SESSION['header_images'] = [
+  'assets/example/foo.png',
+  'assets/example/bar.png',
+];
+            </code></pre>
           </div>
         </section>
 
-        <section data-background="images/seattle-light.jpg" data-transition="fade-in">
+        <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
           <h1>Using the $_SESSION Variable</h1>
-          <div class="column-wrapper">
-            <div>
-              [screenshot of headers]
-            </div>
-          </div>
+          <img src="images/cookie-headers.png" />
         </section>
 
-        <section data-background="images/seattle-light.jpg" data-transition="fade-in">
+        <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
           <h1>Unexpected Culprits of $_SESSION</h1>
           <ul>
             <li class="fragment">
@@ -254,7 +356,12 @@
           </ul>
         </section>
 
-        <section data-background="images/seattle-light.jpg" data-transition="fade-in">
+        <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>Unexpected Culprits of $_SESSION</h1>
+          <img src="images/drupal-set-message.png" alt="Drupal site homepage with a welcome message in the messages area." />
+        </section>
+
+        <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
           <h1>Solutions and Alternatives</h1>
           <ul>
             <li class="fragment">Only use $_SESSION for truly unique per-user data</li>
@@ -264,7 +371,7 @@
           </ul>
         </section>
 
-        <section data-background="images/seattle-light.jpg" data-transition="fade-in">
+        <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
           <h1>Web Services and External HTTP Requests</h1>
           <h3>Blocking Server-Side Processes</h3>
           <ul>
@@ -283,7 +390,7 @@
           </ul>
         </section>
 
-        <section data-background="images/seattle-light.jpg" data-transition="fade-in">
+        <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
           <h1>Solutions and Alternatives</h1>
           <ul>
             <li class="fragment">Initiate requests client-side</li>
@@ -302,13 +409,9 @@
           </ul>
         </section>
 
-        <section data-background="images/seattle-light.jpg" data-transition="fade-in">
+        <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
           <h1>Excessive Logging</h1>
-          <div class="column-wrapper">
-            <div>
-              [picture of php errors in DBLog]
-            </div>
-          </div>
+          <img src="images/dblog.png" alt="Database logging screenshot with lots of errors." />
         </section>
 
         <section data-background="images/seattle-light.jpg" data-transition="fade-in">
@@ -338,15 +441,6 @@
         </section>
 
         <section data-background="images/seattle-light.jpg" data-transition="fade-in">
-          <h1>Debugging Modes Turned On</h1>
-          <ul>
-            <li>Twig Debug</li>
-            <li>Theme Registry Rebuild</li>
-            <li>Devel Module Error Handler</li>
-          </ul>
-        </section>
-
-        <section data-background="images/seattle-light.jpg" data-transition="fade-in">
           <h1>Long-Running SQL Queries or Locking</h1>
           <ul>
             <li>Easy to encounter in complex Views</li>
@@ -366,13 +460,62 @@
           </ul>
         </section>
 
+        <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>Using EXPLAIN</h1>
+          <pre style="font-size: 50%" class="wide sql"><code>
+            mysql> EXPLAIN SELECT entity_id,
+            UNIX_TIMESTAMP(d.field_override_publish_date_value) as timestamp
+            FROM field_data_field_override_publish_date d
+            ORDER BY timestamp DESC LIMIT 10;
++----+-------------+-------+------------+------+---------------+------+---------+------+-------+----------+----------------+
+| id | select_type | table | partitions | type | possible_keys | key  | key_len | ref  | rows  | filtered | Extra          |
++----+-------------+-------+------------+------+---------------+------+---------+------+-------+----------+----------------+
+|  1 | SIMPLE      | d     | NULL       | ALL  | NULL          | NULL | NULL    | NULL | 10992 |   100.00 | Using filesort |
++----+-------------+-------+------------+------+---------------+------+---------+------+-------+----------+----------------+
+1 row in set, 1 warning (0.00 sec)
+          </code></pre>
+          <ul>
+            <li class="fragment">❌ No "key"</li>
+            <li class="fragment">❌ Thousands of rows</li>
+            <li class="fragment">❌ "Using filesort" under "Extra"</li>
+            <li class="fragment">❌ "Using temporary" (not in this example)</li>
+          </ul>
+        </section>
+
+        <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>Using EXPLAIN</h1>
+          <pre style="font-size: 50%" class="wide sql"><code>
+EXPLAIN SELECT nid, created FROM node n ORDER BY created DESC LIMIT 10;
++----+-------------+-------+------------+-------+---------------+--------------+---------+------+------+----------+-------------+
+| id | select_type | table | partitions | type  | possible_keys | key          | key_len | ref  | rows | filtered | Extra       |
++----+-------------+-------+------------+-------+---------------+--------------+---------+------+------+----------+-------------+
+|  1 | SIMPLE      | n     | NULL       | index | NULL          | node_created | 4       | NULL |   10 |   100.00 | Using index |
++----+-------------+-------+------------+-------+---------------+--------------+---------+------+------+----------+-------------+
+1 row in set, 1 warning (0.02 sec)
+          </code></pre>
+          <p>Good Example switching to an index for sorting (same database)</p>
+          <ul>
+            <li>👍 Index shown under "key"</li>
+            <li>👍 Only sorting on 10 rows</li>
+            <li>👍 "Using index" under "Extra"</li>
+          </ul>
+        </section>
+
+        <section data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>Too Many Entities</h1>
+          <ul>
+            <li>Not using entity_load_multiple()</li>
+            <li>Just too many pieces of content! (e.g. rss.xml or search result theming)</li>
+          </ul>
+        </section>
+
         <section data-background="images/seattle-dark.jpg" data-background-transition="slide" class="dark">
           <h1>Outside the Application</h1>
           <h6 class="foot">Other Tools that Can Help</h6>
         </section>
 
         <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
-          <h1>Refactoring Difficult or Slow?</h1>
+          <h1 style="margin-bottom: 0">Refactoring<br />Difficult or Slow?</h1>
           <aside class="notes">
             <ul>
               <li>"DevOps" the problem away (Slides)</li>
@@ -380,17 +523,24 @@
               <li>Critically useful for managing downtime, deployments, avoiding hits to Drupal for cached pages.</li>
             </ul>
           </aside>
-          <h3 class="fragment">Varnish To the Rescue!</h3>
-          <ul>
-            <li class="fragment">Ultimate tool in covering up back-end problems</li>
-            <ul>
-              <li class="fragment">Cache authenticated pages!</li>
-              <li class="fragment">Ignore Drupal's cache headers and session cookies!</li>
-              <li class="fragment">Tie your infrastructure directly to application behavior!</li>
-            </ul>
-            <li class="fragment">(These are all bad ideas...)</li>
-            <li class="fragment">But can be a band-aid while refactoring.</li>
-          </ul>
+          <h3 class="fragment" data-fragment-index="1">Varnish To the Rescue!</h3>
+          <div class="column-wrapper">
+            <div style="width: 60px">
+              <img class="fragment" data-fragment-index="1" src="images/varnish.png" width="200" alt="The Varnish rabbit looking like a super-hero." />
+            </div>
+            <div style="width: 600px">
+              <ul>
+                <li class="fragment" data-fragment-index="1">Ultimate tool in covering up back-end problems</li>
+                <ul>
+                  <li class="fragment">Cache authenticated pages!</li>
+                  <li class="fragment">Ignore Drupal's cache headers and session cookies!</li>
+                  <li class="fragment">Tie your infrastructure directly to application behavior!</li>
+                </ul>
+                <li class="fragment">(These are all bad ideas...)</li>
+                <li class="fragment">But can be a band-aid while refactoring.</li>
+              </ul>
+            </div>
+        </div>
         </section>
 
         <section data-background="images/seattle-light.jpg" data-transition="fade-in">
@@ -452,6 +602,7 @@
           { src: 'reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
           { src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
           { src: 'reveal.js/plugin/prism/prism.js', async: true },
+          { src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
           { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true },
           { src: 'reveal.js/plugin/notes/notes.js', async: true }
         ]
