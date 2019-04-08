@@ -47,6 +47,7 @@
         <section data-background="images/seattle-start.jpg" data-background-transition="slide" data-state="cover">
           <h1>Performance Pitfalls</h1>
           <h3>(Things You'll Probably Find While Profiling Your Drupal Site)</h3>
+          <h4>https://quicksketch.github.io/presentations/php-profiling/</h4>
           <h6 class="foot subtitle">by Nate Lampton</h6>
         </section>
 
@@ -220,13 +221,13 @@
             <div>
               <ul>
                 <li>Successor to XHProf</li>
-                <li class="fragment">Works Pretty much Identical</li>
+                <li class="fragment">Works Pretty Much Identical</li>
                 <li class="fragment">Same Data Format</li>
                 <li class="fragment">Open Source Extension</li>
                 <li class="fragment">Works with XHProf Module for Drupal 8</li>
                 <li class="fragment">Excellent for Local Debugging</li>
                 <li class="fragment">Online Service maintains Historical Tracking</li>
-                <li class="fragment"><a href="https://tideways.com">tideways.com</a></li>
+                <li><a href="https://tideways.com">tideways.com</a></li>
               </ul>
             </div>
           </div>
@@ -377,6 +378,7 @@ $_SESSION['header_images'] = [
           <h1>Web Services and External HTTP Requests</h1>
           <h3>Blocking Server-Side Processes</h3>
           <ul>
+            <li class="fragment">drupal_http_request() / Guzzle</li>
             <li class="fragment">Mailing Lists</li>
             <li class="fragment">Search Services</li>
             <li class="fragment">OEmbed (Twitter/Facebook/Instagram/YouTube)</li>
@@ -504,11 +506,35 @@ EXPLAIN SELECT nid, created FROM node n ORDER BY created DESC LIMIT 10;
         </section>
 
         <section data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <aside class="notes">
+            <ul>
+              <li>rss.xml suddenly getting used</li>
+              <li>Search for the letter "b" unlimited "LIKE" query</li>
+            </ul>
+          </aside>
           <h1>Too Many Entities</h1>
           <ul>
-            <li>Not using entity_load_multiple()</li>
+            <li>Not using node_/entity_load_multiple()</li>
             <li>Just too many pieces of content! (e.g. rss.xml or search result theming)</li>
+            <li>Entity reference chaining</li>
           </ul>
+        </section>
+
+        <section data-state="taller" data-background="images/seattle-light.jpg" data-transition="fade-in">
+          <h1>Too Many Entities</h1>
+          <div>Individually loaded:</div>
+          <pre class="php" style="font-size: 80%"><code>
+foreach ($node->field_entity_ref as $ref) {
+  $entity = $ref->entity;
+  ...
+}
+          </code></pre>
+          <div>Load all first:</div>
+          <pre class="php" style="font-size: 80%"><code>
+foreach ($node->field_entity_ref->referencedEntities() as $entity) {
+  ...
+}
+          </code></pre>
         </section>
 
         <section data-background="images/seattle-dark.jpg" data-background-transition="slide" class="dark">
@@ -575,6 +601,7 @@ EXPLAIN SELECT nid, created FROM node n ORDER BY created DESC LIMIT 10;
         <section data-background="images/seattle-start.jpg" data-background-transition="slide" data-state="cover">
           <h1>Performance Pitfalls</h1>
           <h3>Problems Found While Application Profiling</h3>
+          <h4>https://quicksketch.github.io/presentations/php-profiling/</h4>
           <h6 class="foot subtitle">by Nate Lampton</h6>
         </section>
 
